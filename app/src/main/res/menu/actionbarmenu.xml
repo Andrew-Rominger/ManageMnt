@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/quickAddTask"
+        android:icon="@drawable/addicon"
+        android:title="Quick Add Icon"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/settings"
+        android:title="settings"
+        />
+
+</menu>

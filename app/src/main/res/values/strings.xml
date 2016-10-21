@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ManageMnt</string>
+    <string name="openDrawer">Open Navigation Drawer</string>
+    <string name="closeDrawer">Close Navigation Drawer</string>
 </resources>
