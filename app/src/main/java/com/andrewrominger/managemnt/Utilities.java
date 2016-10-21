@@ -18,17 +18,18 @@ public class Utilities
     public static ArrayList<Calendar> getDays(Context context, Calendar calendar)
     {
         ArrayList<Calendar> arr = new ArrayList<>();
-        Calendar c = calendar;
+        Calendar c = (Calendar) calendar.clone();
         c.set(Calendar.DAY_OF_MONTH,1);
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK) -1;
         //Log.i("Day retured", String.valueOf(dayOfWeek));
         c.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
         //Log.i("First Day", String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
-        for(int i = 0; i < 42; i++)
+        for(int i = 0;i<42;i++)
         {
-            arr.add(c);
-            //Log.i("Day: ", sdf.format(c.getTime()));
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(c.getTimeInMillis());
+            arr.add(cal);
             c.add(Calendar.DAY_OF_MONTH, 1);
 
         }
@@ -37,3 +38,4 @@ public class Utilities
     }
 
 }
+

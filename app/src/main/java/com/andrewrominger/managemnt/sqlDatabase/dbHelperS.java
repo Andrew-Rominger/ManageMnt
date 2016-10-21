@@ -38,7 +38,6 @@ public class dbHelperS extends SQLiteOpenHelper
         db.execSQL(SQL_CREATE_ENTRIES);
     }
 
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
