@@ -1,4 +1,4 @@
-package com.andrewrominger.managemnt;
+package com.andrewrominger.managemnt.Fragments;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.andrewrominger.managemnt.R;
 
 /**
  * Created by Andrew on 10/21/2016.
@@ -31,7 +33,7 @@ public class homeFragment extends Fragment
         fm = getFragmentManager();
         transaction = fm.beginTransaction();
         transaction.add(R.id.calenderView, new calendarFragment(), "calendar Fragment");
-        transaction.add(R.id.nextTaskView, new nextTaskFragment(), "next task fragment");
+        transaction.add(R.id.nextTaskView, new nextTaskFragment(), "next Task fragment");
         transaction.commit();
         super.onStart();
     }

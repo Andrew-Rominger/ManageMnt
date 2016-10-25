@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:id="@+id/taskScr">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:layout_margin="8dp"
+                android:id="@+id/holder"
+                android:background="@color/colorGreenExtra">
+
+                <EditText
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Title"
+                    android:layout_marginTop="8dp"
+                    android:textSize="30sp"
+                    android:inputType="textCapSentences"
+                    android:id="@+id/taskAddTitle"
+                    android:textAlignment="center"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/drawbckg"
+                    android:backgroundTint="@color/colorGreyLight"
+                    />
+                <EditText
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:hint="Description"
+                    android:backgroundTint="@color/colorGreyLight"
+
+                    android:inputType="textMultiLine"
+                    android:layout_below="@+id/taskAddTitle"
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/taskAddDescription"
+                    android:textSize="20sp"
+                    android:gravity="top"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/drawbckg"
+                    />
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/taskAddDescription"
+                    android:layout_marginTop="4dp"
+                    android:text="Due Date"
+                    android:id="@+id/taskDueDate"
+                    android:backgroundTint="@color/colorGreyLight"
+                    android:textSize="30sp"
+                    android:textAlignment="center"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/drawbckg"
+                    />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/calendar"
+                    android:id="@+id/taskAddDueDateButton"
+                    android:layout_alignTop="@+id/taskDueDate"
+                    android:layout_toEndOf="@+id/taskDueDate" />
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/taskAddSpinner"
+                    android:layout_below="@+id/taskDueDate"
+                    android:layout_toStartOf="@+id/taskAddDueDateButton" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Urgency: "
+                    android:textSize="30sp"
+                    android:id="@+id/urgencyText"
+                    android:layout_below="@+id/taskDueDate"
+                    android:layout_toStartOf="@+id/taskAddSpinner" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/taskAddButton"
+                    android:text="Add task"
+                    android:backgroundTint="@color/colorAccent"
+                    android:layout_below="@+id/taskAddSpinner"
+                    android:layout_alignParentEnd="true" />
+
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+    </ScrollView>
+
+
+
+</LinearLayout>

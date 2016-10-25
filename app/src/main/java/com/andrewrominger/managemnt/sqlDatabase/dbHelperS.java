@@ -21,7 +21,12 @@ public class dbHelperS extends SQLiteOpenHelper
                     sqlContract.FeedEntryTasks.COLUMN_TASK_NAME + TEXT_TYPE  + COMMA_SEP +
                     sqlContract.FeedEntryTasks.COLUMN_TASK_DESCRIPTION + TEXT_TYPE  + COMMA_SEP +
                     sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS + INT_TYPE  + COMMA_SEP +
-                    sqlContract.FeedEntryTasks.COLUMN_URGANCY + INT_TYPE  +
+                    sqlContract.FeedEntryTasks.COLUMN_URGANCY + INT_TYPE  + COMMA_SEP +
+                    sqlContract.FeedEntryTasks.COLUMN_MONTH + INT_TYPE + COMMA_SEP +
+                    sqlContract.FeedEntryTasks.COLUMN_DAY + INT_TYPE + COMMA_SEP +
+                    sqlContract.FeedEntryTasks.COLUMN_YEAR + INT_TYPE + COMMA_SEP +
+                    sqlContract.FeedEntryTasks.COLUMN_HOUR + INT_TYPE + COMMA_SEP +
+                    sqlContract.FeedEntryTasks.COLUMN_MINUTE + INT_TYPE +
                     " )"
 
 

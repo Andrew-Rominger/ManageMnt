@@ -1,4 +1,4 @@
-package com.andrewrominger.managemnt;
+package com.andrewrominger.managemnt.Fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -13,6 +13,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.andrewrominger.managemnt.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

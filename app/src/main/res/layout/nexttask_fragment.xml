@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="28sp"
+        android:id="@+id/nextTaskTitle"
         android:textColor="@android:color/black"
         android:text="PLACEHOLDER_TASKNAME"/>
     <TextView
@@ -16,11 +17,13 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textColor="@color/colorGreenExtra"
+        android:id="@+id/nextTaskDueDate"
         android:text="PLACEHOLDER_DUEDATE"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:id="@+id/nextTaskDueUrgency"
         android:textColor="@android:color/white"
         android:text="PLACEHOLDER_URGANCY"/>
     <TextView
@@ -28,6 +31,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textColor="@android:color/black"
+        android:id="@+id/nextTaskDueDescription"
         android:text="PLACEHOLDER_Description"/>
 
 </LinearLayout>

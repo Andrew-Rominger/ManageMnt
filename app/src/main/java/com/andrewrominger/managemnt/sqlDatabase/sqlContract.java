@@ -17,6 +17,12 @@ public class sqlContract
         public static final String COLUMN_TASK_DESCRIPTION = "taskDescription";
         public static final String COLUMN_DUE_DATE_IN_MS = "dueDateInMs";
         public static final String COLUMN_URGANCY = "taskUrgency";
+        public static final String COLUMN_MONTH = "taskMonth";
+        public static final String COLUMN_DAY = "taskDay";
+        public static final String COLUMN_YEAR = "taskYear";
+        public static final String COLUMN_HOUR = "taskHour";
+        public static final String COLUMN_MINUTE = "taskMinute";
+
 
         //DEFINE URGANCY LEVELS
         public static final int LEVEL_URGANCY_LOW = 0;
