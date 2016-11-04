@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -36,6 +37,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.andrewrominger.managemnt.Fragments.homeFragment;
 import com.andrewrominger.managemnt.Fragments.nextTaskFragment;
@@ -56,21 +58,10 @@ public class MainActivity extends AppCompatActivity
     FragmentManager fm;
     FragmentTransaction transaction;
     ScrollView sv;
-
-    EditText title;
-    EditText description;
-    Spinner urgSelector;
-    Button addTask;
-    TextView dueDate;
-    DatePicker datePicker;
-    TimePicker timePicker;
-
-    public int quickMin;
-    public int quickHour;
-    public int quickDay;
-    public int quickMonth;
-    public int quickYear;
+    ViewFlipper viewFlipper;
     int urgh = 0;
+
+    FloatingActionButton fab;
 
 
     FrameLayout fragmentholder;
@@ -102,9 +93,17 @@ public class MainActivity extends AppCompatActivity
         navList = (ListView) findViewById(R.id.menuList);
         fm = getFragmentManager();
         sv = (ScrollView) findViewById(R.id.scrollViewMain);
+        fab = (FloatingActionButton) findViewById(R.id.addtaskfab);
+        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipMain);
+        fab.hide();
         //sv.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
 
-
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+            }
+        });
         transaction = fm.beginTransaction();
         transaction.replace(R.id.mainFragmentHolder,new homeFragment(), "taskFragment");
         transaction.commit();
@@ -173,6 +172,7 @@ public class MainActivity extends AppCompatActivity
 
         private void changeFragment(int i)
         {
+            fab.hide();
             switch (i)
             {
                 case 0:
@@ -188,6 +188,7 @@ public class MainActivity extends AppCompatActivity
             TaskFragment = new taskFragment();
             transaction.replace(R.id.mainFragmentHolder,TaskFragment, "taskFragment");
             transaction.addToBackStack(null);
+            fab.show();
             transaction.commit();
         }
 

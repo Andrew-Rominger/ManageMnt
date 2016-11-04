@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <ripple android:color="#a56ab0">
+            <item>
+                <shape>
+                    <solid android:color="#9c27b0" />
+                </shape>
+            </item>
+        </ripple>
+    </item>
+    <item>
+        <ripple android:color="#ff8080">
+            <item>
+                <shape>
+                    <solid android:color="#ff5252" />
+                </shape>
+            </item>
+        </ripple>
+    </item>
+</selector>

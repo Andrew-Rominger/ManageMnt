@@ -5,6 +5,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ public class Utilities
 {
     public static SimpleDateFormat MonthDayYearsdf = new SimpleDateFormat("MMM d, yyyy");
     public static SimpleDateFormat fullDateWithTime = new SimpleDateFormat("MMM d, yyyy @ h:mm aa");
+    public static SimpleDateFormat justTime = new SimpleDateFormat("h:mm aa");
     public static ArrayList<Calendar> getDays(Context context, Calendar calendar)
     {
         ArrayList<Calendar> arr = new ArrayList<>();
@@ -76,7 +79,6 @@ public class Utilities
         }
         Toast.makeText(context, "Task Created!", Toast.LENGTH_LONG).show();
         db.close();
-
     }
     public static void createTask(Context context, int minute, int hour, int day, int month, int year, String title, String description, int urgency)
     {
@@ -118,43 +120,6 @@ public class Utilities
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(ms);
         return c;
-    }
-
-    public static ArrayList<Task> getTasks(Context context)
-    {
-        dbHelperS helper = new dbHelperS(context);
-        SQLiteDatabase db = helper.getReadableDatabase();
-        ArrayList<Task> list = new ArrayList<>();
-        String[] projection = {
-                sqlContract.FeedEntryTasks._ID,
-                sqlContract.FeedEntryTasks.COLUMN_TASK_NAME,
-                sqlContract.FeedEntryTasks.COLUMN_TASK_DESCRIPTION,
-                sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS,
-                sqlContract.FeedEntryTasks.COLUMN_URGANCY,
-                sqlContract.FeedEntryTasks.COLUMN_DAY,
-                sqlContract.FeedEntryTasks.COLUMN_MONTH,
-                sqlContract.FeedEntryTasks.COLUMN_YEAR
-        };
-        String sortOrder = sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS + " ASC";
-
-        Cursor c = db.query(
-                sqlContract.FeedEntryTasks.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                sortOrder
-        );
-        c.moveToFirst();
-
-        while (!c.isAfterLast())
-        {
-            list.add(new Task(c));
-            c.moveToNext();
-        }
-        db.close();
-        return list;
     }
 
     public static ArrayList<Task> getDaysTasks(Context context, Calendar day)
@@ -206,11 +171,11 @@ public class Utilities
     {
         ArrayList<Calendar> cal = new ArrayList<>();
         Log.i("getNext6Days", "PASSED: " +Utilities.MonthDayYearsdf.format(from.getTime()));
-        for(int i = 0;i<7;i++)
+        for(int i = 0;i<6;i++)
         {
             Calendar temp = Calendar.getInstance();
             temp.setTimeInMillis(from.getTimeInMillis());
-            temp.add(Calendar.DAY_OF_MONTH, i+1);
+            temp.add(Calendar.DAY_OF_MONTH, i);
             cal.add(temp);
             Log.i("getNext6Days", "ADDING: " + Utilities.MonthDayYearsdf.format(temp.getTime()));
         }
@@ -218,5 +183,67 @@ public class Utilities
         return cal;
 
     }
+
+    public static int getUrgColor(int urgency, Context context)
+    {
+        switch (urgency)
+        {
+            case sqlContract.FeedEntryTasks.LEVEL_URGANCY_LOW:
+                return ContextCompat.getColor(context, R.color.colorPrimaryLight);
+            case sqlContract.FeedEntryTasks.LEVEL_URGANCY_MEDIUM:
+                return ContextCompat.getColor(context, R.color.colorPrimary);
+            case sqlContract.FeedEntryTasks.LEVEL_URGANCY_HIGH:
+                return ContextCompat.getColor(context, R.color.colorPrimaryDark);
+            case sqlContract.FeedEntryTasks.LEVEL_URGANCY_CRIT:
+                return ContextCompat.getColor(context, R.color.colorAccent);
+            default:
+                return ContextCompat.getColor(context, R.color.colorPrimary);
+        }
+    }
+
+    public static ArrayList<Calendar> getDaysWithTasks(Context context, Calendar from, int offset)
+    {
+        final int numtofetch = 10;
+        ArrayList<Calendar> tasks = new ArrayList<>();
+        dbHelperS helper = new dbHelperS(context);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String[] projection = {
+                sqlContract.FeedEntryTasks._ID,
+                sqlContract.FeedEntryTasks.COLUMN_TASK_NAME,
+                sqlContract.FeedEntryTasks.COLUMN_TASK_DESCRIPTION,
+                sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS,
+                sqlContract.FeedEntryTasks.COLUMN_URGANCY,
+                sqlContract.FeedEntryTasks.COLUMN_DAY,
+                sqlContract.FeedEntryTasks.COLUMN_MONTH,
+                sqlContract.FeedEntryTasks.COLUMN_YEAR
+        };
+        String sortOrder = sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS + " ASC LIMIT " + offset + "," + numtofetch;
+        Cursor c = db.query(
+                sqlContract.FeedEntryTasks.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+        c.moveToFirst();
+        if (c.getCount() == 0)
+        {
+            return null;
+        }
+        while (!c.isAfterLast())
+        {
+            tasks.add(makeCal(c));
+            c.moveToNext();
+        }
+        return tasks;
+    }
+
+    public static Calendar makeCal(Cursor c)
+    {
+        return makeCal(c.getLong(c.getColumnIndexOrThrow(sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS)));
+    }
+
 }
 

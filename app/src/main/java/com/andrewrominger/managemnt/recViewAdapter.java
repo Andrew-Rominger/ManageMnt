@@ -17,14 +17,14 @@ import java.util.Calendar;
  * Created by Andrew on 11/2/2016.
  */
 
-public class recViewAdapterWeek extends RecyclerView.Adapter<recViewAdapterWeek.viewHolderWeek>
+public class recViewAdapter extends RecyclerView.Adapter<recViewAdapter.viewHolderWeek>
 {
-    String TAG = recViewAdapterWeek.class.getSimpleName();
+    String TAG = recViewAdapter.class.getSimpleName();
     ArrayList<Calendar> list;
     private Context context;
     private LayoutInflater inflater;
 
-    public recViewAdapterWeek(ArrayList<Calendar> list, Context context)
+    public recViewAdapter(ArrayList<Calendar> list, Context context)
     {
         this.list = list;
         this.context = context;
@@ -32,18 +32,26 @@ public class recViewAdapterWeek extends RecyclerView.Adapter<recViewAdapterWeek.
     }
 
     @Override
-    public recViewAdapterWeek.viewHolderWeek onCreateViewHolder(ViewGroup parent, int viewType)
+    public recViewAdapter.viewHolderWeek onCreateViewHolder(ViewGroup parent, int viewType)
     {
         Log.i(TAG, "onCreateViewHolder");
         return new viewHolderWeek(inflater.inflate(R.layout.dayinweek, parent, false), context);
     }
 
     @Override
-    public void onBindViewHolder(recViewAdapterWeek.viewHolderWeek holder, int position)
+    public void onBindViewHolder(recViewAdapter.viewHolderWeek holder, int position)
     {
         Log.i(TAG, "BINDING");
         Calendar current = list.get(position);
         holder.setData(current,position);
+    }
+
+    public void addDays(ArrayList<Calendar> newDays)
+    {
+        for(Calendar c : newDays)
+        {
+            this.list.add(c);
+        }
     }
 
     @Override

@@ -58,10 +58,12 @@ public class recViewAdapterDay extends RecyclerView.Adapter<recViewAdapterDay.vi
     {
         TextView title;
         TextView dueDate;
-        TextView urgency;
+        TextView discription;
         ImageView check;
-        ImageView cross;
-        ImageView x1,x2,x3;
+        ImageView colorIndicator;
+        View item;
+
+        String TAG = viewHolderDay.class.getSimpleName();
 
         int position;
 
@@ -69,41 +71,49 @@ public class recViewAdapterDay extends RecyclerView.Adapter<recViewAdapterDay.vi
         public viewHolderDay(View itemView)
         {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.taskInDayTitle);
-            dueDate = (TextView) itemView.findViewById(R.id.taskInDayDueDate);
-            urgency = (TextView) itemView.findViewById(R.id.taskInDayUrgency);
-            check = (ImageView) itemView.findViewById(R.id.taskInDayCheck);
-            cross = (ImageView) itemView.findViewById(R.id.taskInDayCross);
-            x1 = (ImageView) itemView.findViewById(R.id.x1);
-            x2 = (ImageView) itemView.findViewById(R.id.duedateIMG);
-            x3 = (ImageView) itemView.findViewById(R.id.urgencyIMG);
+            title = (TextView) itemView.findViewById(R.id.taskTaskName);
+            dueDate = (TextView) itemView.findViewById(R.id.taskTaskDueDate);
+            check = (ImageView) itemView.findViewById(R.id.taskTaskCheck);
+            colorIndicator = (ImageView) itemView.findViewById(R.id.taskColor);
+            discription = (TextView) itemView.findViewById(R.id.taskTaskDescription);
+            this.item = itemView;
         }
 
         public void setData(Task t, int position)
         {
-            if(t.getUrgency() == -1)
-            {
-                this.dueDate.setText("");
-                this.urgency.setText("");
-                this.x1.setImageDrawable(null);
-                this.x2.setImageDrawable(null);
-                this.x3.setImageDrawable(null);
-                this.check.setImageDrawable(null);
-                this.cross.setImageDrawable(null);
-                this.title.setGravity(Gravity.CENTER_HORIZONTAL);
-                this.title.setLayoutParams(new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                this.title.setText("No Tasks");
-                return;
-            }
             this.title.setText(t.getTitle());
-            this.dueDate.setText(Utilities.MonthDayYearsdf.format(t.getDueDate().getTime()));
-            this.urgency.setText(Utilities.getUrgString(t.getUrgency()));
+            this.dueDate.setText(Utilities.justTime.format(t.getDueDate().getTime()));
+            Log.i(TAG, "Setting color w/ urgency " + t.getUrgency() + " to " + Utilities.getUrgColor(t.getUrgency(), itemView.getContext()));
+            this.colorIndicator.setBackgroundColor(Utilities.getUrgColor(t.getUrgency(), itemView.getContext()));
+            if(t.getDescription().contains("\n"))
+            {
+                String finals = "";
+                char[] arr = t.getDescription().toCharArray();
+
+                for(int i =0;i<arr.length;i++)
+                {
+                    if(arr[i] == '\n')
+                    {
+                        finals = t.getDescription().substring(0, i) + "...";
+                        break;
+                    }
+                }
+                this.discription.setText(finals);
+            }
+            else if(t.getDescription().length() > 30)
+            {
+                this.discription.setText(t.getDescription().substring(0,30) + "...");
+            }
+            else
+            {
+                this.discription.setText(t.getDescription());
+            }
+
             this.setListners(t);
         }
         public void setListners(Task t)
         {
             this.check.setOnClickListener(new recViewAdapterDay.customButtonClickCheck(t));
-            this.cross.setOnClickListener(new recViewAdapterDay.customButtonClickCross(t));
         }
 
     }

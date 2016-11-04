@@ -1,93 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-
+    android:layout_height="80dp"
     >
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="4dp"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/taskColor" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/cross"
-            android:id="@+id/x1"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textSize="15sp"
+        android:id="@+id/taskTaskDescription"
+        android:layout_marginBottom="21dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/taskTaskName" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/taskInDayTitle"
-            android:textSize="22sp"
-            android:text="TITLE"
-            android:layout_toRightOf="@+id/x1"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Task Name"
+        android:textSize="20sp"
+        android:id="@+id/taskTaskName"
+        android:layout_marginStart="9dp"
+        android:layout_above="@+id/taskTaskDescription"
+        android:layout_toEndOf="@+id/taskColor" />
 
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="8dp"
-                android:tint="@color/colorGreenExtra"
-                android:src="@drawable/check"
-                android:id="@+id/taskInDayCheck"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                />
+    <TextView
+        android:text="DueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/taskTaskDueDate"
+        android:layout_below="@+id/taskTaskName"
+        android:layout_alignParentEnd="true" />
 
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/cross"
-            android:id="@+id/duedateIMG"
-            android:layout_marginStart="39dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/check"
+        android:id="@+id/taskTaskCheck"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/taskTaskDueDate"
+        android:layout_alignStart="@+id/taskTaskDueDate" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/taskInDayDueDate"
-            android:layout_toEndOf="@id/duedateIMG"
-            android:textSize="22sp"
-            android:text="DUE DATE"/>
-
-
-
-
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/cross"
-            android:id="@+id/urgencyIMG"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="39dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/taskInDayUrgency"
-            android:layout_toEndOf="@id/urgencyIMG"
-            android:textSize="22sp"
-            android:text="URGENCY"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/cross"
-            android:id="@+id/taskInDayCross"
-            android:paddingRight="8dp"
-            android:tint="@android:color/holo_red_light"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

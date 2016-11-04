@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:layout_margin="8dp"
+    android:id="@+id/holder"
+    android:background="@drawable/roundedbckg"
+    android:backgroundTint="@color/colorPrimary"
+    android:elevation="4dp">
+
+    <EditText
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:hint="Description"
+        android:paddingLeft="10dp"
+        android:backgroundTint="@color/colorGreyLight"
+        android:background="@drawable/roundededges"
+        android:inputType="textMultiLine"
+        android:layout_below="@+id/taskAddTitle"
+        android:layout_marginTop="4dp"
+        android:id="@+id/taskAddDescription"
+        android:textSize="20sp"
+        android:gravity="top"
+        android:layout_centerHorizontal="true"
+        />
+    <TextView
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/taskAddDescription"
+        android:layout_marginTop="4dp"
+        android:text="Due Date"
+        android:id="@+id/taskDueDate"
+        android:backgroundTint="@color/colorGreyLight"
+        android:textSize="25sp"
+        android:textAlignment="center"
+        android:background="@drawable/roundededges"
+        android:layout_alignStart="@+id/taskAddDescription"
+        android:layout_toStartOf="@+id/taskAddDueDateButton" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_delete"
+        android:id="@+id/DELETEALLTASKS"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/taskAddTitle" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/calendar_plus"
+        android:id="@+id/taskAddDueDateButton"
+        android:tint="@android:color/black"
+        android:layout_alignTop="@+id/taskDueDate"
+        android:layout_alignEnd="@+id/taskAddDescription"
+        android:layout_above="@+id/taskAddButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/taskAddButton"
+        android:text="Add task"
+        android:backgroundTint="@color/colorAccent"
+        android:layout_below="@+id/taskDueDate"
+        android:layout_alignEnd="@+id/taskAddDueDateButton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Urgency: "
+        android:textSize="30sp"
+        android:id="@+id/urgencyText"
+        android:layout_below="@+id/taskDueDate"
+        android:layout_marginTop="4dp"
+        android:layout_alignStart="@+id/taskDueDate"
+        />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/taskAddSpinner"
+        android:paddingRight="10dp"
+        style="@style/Widget.AppCompat.Light.DropDownItem.Spinner"
+        android:layout_alignBottom="@+id/urgencyText"
+        android:layout_toEndOf="@+id/urgencyText" />
+
+    <TextView
+        android:text="Add a task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addTask"
+        android:background="@drawable/roundedrectangle"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_marginBottom="4dp"
+        android:textSize="20sp"
+        android:layout_marginTop="4dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:hint="Title"
+        android:textSize="30sp"
+        android:inputType="textCapSentences"
+        android:id="@+id/taskAddTitle"
+        android:textAlignment="center"
+        android:background="@drawable/roundededges"
+        android:backgroundTint="@color/colorGreyLight"
+        android:layout_below="@+id/addTask"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>
