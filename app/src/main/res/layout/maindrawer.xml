@@ -48,12 +48,29 @@
             />
 
     </android.support.v4.widget.DrawerLayout>
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/addtaskfab"
+    <RelativeLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/colorGreenExtra"
-        android:src="@drawable/plus"/>
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/roundededgesorange"
+        android:elevation="10dp"
+        android:id="@+id/addTaskTab">
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="match_parent"
+            android:src="@color/colorAccent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addtaskfab"
+            android:layout_gravity="end|bottom"
+            android:layout_centerInParent="true"
+            android:src="@drawable/plus"
+            android:elevation="0dp"/>
+    </RelativeLayout>
+
 </FrameLayout>

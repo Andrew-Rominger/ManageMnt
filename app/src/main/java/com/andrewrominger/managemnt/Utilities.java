@@ -228,10 +228,6 @@ public class Utilities
                 sortOrder
         );
         c.moveToFirst();
-        if (c.getCount() == 0)
-        {
-            return null;
-        }
         while (!c.isAfterLast())
         {
             tasks.add(makeCal(c));

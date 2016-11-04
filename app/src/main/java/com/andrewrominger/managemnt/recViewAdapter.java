@@ -55,7 +55,8 @@ public class recViewAdapter extends RecyclerView.Adapter<recViewAdapter.viewHold
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return list.size();
     }
 
