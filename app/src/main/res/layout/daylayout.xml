@@ -4,14 +4,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:id="@+id/dayLayoutLin">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:background="@drawable/drawbckg">
+        android:orientation="horizontal">
 
-            <TextView
+        <TextView
                 android:text="0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -20,7 +20,55 @@
                 android:paddingLeft="2dp"
                 android:id="@+id/dayOfMonthNum"
                 />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/circle"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/lowCircle" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/circle"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_below="@id/lowCircle"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/medCircle" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/circle"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/medCircle"
+                android:id="@+id/highCirlce" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/circle"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_below="@id/highCirlce"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/critCircle" />
+
+        </RelativeLayout>
+
     </LinearLayout>
+
+
 
 
 </LinearLayout>

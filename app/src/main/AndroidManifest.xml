@@ -11,8 +11,7 @@
         <activity android:name=".MainActivity">
             android:windowSoftInputMode="stateHidden"
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.MAIN" android:label="Managmnt"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

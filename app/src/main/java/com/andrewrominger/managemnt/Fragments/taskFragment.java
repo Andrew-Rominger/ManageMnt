@@ -2,35 +2,32 @@ package com.andrewrominger.managemnt.Fragments;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.content.ContentValues;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andrewrominger.managemnt.R;
-import com.andrewrominger.managemnt.Task;
 import com.andrewrominger.managemnt.Utilities;
 import com.andrewrominger.managemnt.datePicker;
 import com.andrewrominger.managemnt.pickerListner;
+import com.andrewrominger.managemnt.recViewAdapterDay;
+import com.andrewrominger.managemnt.recViewAdapterWeek;
 import com.andrewrominger.managemnt.sqlDatabase.dbHelperS;
 import com.andrewrominger.managemnt.sqlDatabase.sqlContract;
 import com.andrewrominger.managemnt.timePicker;
@@ -38,13 +35,11 @@ import com.andrewrominger.managemnt.timePicker;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import static uk.co.chrisjenx.calligraphy.R.styleable.MenuItem;
-
 /**
  * Created by Andrew on 10/21/2016.
  */
 
-public class taskFragment extends Fragment implements pickerListner, AdapterView.OnItemSelectedListener
+public class taskFragment extends Fragment implements pickerListner
 {
     String TAG = taskFragment.class.getSimpleName();
     SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy @ hh:mm aa");
@@ -54,8 +49,11 @@ public class taskFragment extends Fragment implements pickerListner, AdapterView
     Button addTask;
     Spinner urgSelector;
     SQLiteDatabase db;
+    RecyclerView currentDayList;
+    RecyclerView nextWeekList;
 
     ImageView openPicker;
+    ImageView deleteAll;
 
     int dayPicked;
     int monthPicked;
@@ -94,7 +92,8 @@ public class taskFragment extends Fragment implements pickerListner, AdapterView
         }
 
         //If a layout container, iterate over children and seed recursion.
-        if (view instanceof ViewGroup) {
+        if (view instanceof ViewGroup)
+        {
 
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++)
             {
@@ -103,8 +102,8 @@ public class taskFragment extends Fragment implements pickerListner, AdapterView
 
                 setupUI(innerView);
             }
+        }
     }
-}
 
 
     @Override
@@ -119,6 +118,9 @@ public class taskFragment extends Fragment implements pickerListner, AdapterView
         addTask = (Button) view.findViewById(R.id.taskAddButton);
         openPicker = (ImageView) view.findViewById(R.id.taskAddDueDateButton);
         dueDate = (TextView) view.findViewById(R.id.taskDueDate);
+        currentDayList = (RecyclerView) view.findViewById(R.id.recViewCurrentDay);
+        nextWeekList = (RecyclerView) view.findViewById(R.id.recViewWeek);
+        deleteAll = (ImageView) view.findViewById(R.id.DELETEALLTASKS);
         description.setText("");
         title.setText("");
         dueDate.setText("Due Date");
@@ -150,13 +152,76 @@ public class taskFragment extends Fragment implements pickerListner, AdapterView
 
             }
         });
+        deleteAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Utilities.deleteAllTasks(getActivity());
+                Toast.makeText(getActivity(), "deleted all tasks", Toast.LENGTH_LONG).show();
+            }
+        });
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.urgencyArray, R.layout.simplespinnerlayouy);
-
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
         urgSelector.setAdapter(adapter);
+        urgSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                Log.i(TAG, "Selected " + urgSelector.getItemAtPosition(i));
+                switch((String) urgSelector.getItemAtPosition(i))
+                {
+                    case "Low":
+                        urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_LOW;
+                        break;
+                    case "Medium":
+                        urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_MEDIUM;
+                        break;
+                    case "High":
+                        urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_HIGH;
+                        break;
+                    case "Criticle":
+                        urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_CRIT;
+                        break;
+                    default:
+                        urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_LOW;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+                Log.i(TAG, "Nothing selected");
+                urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_LOW;
+            }
+        });
+        setupCurrentDayRecView();
+        setupNext7DaysView();
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void setupNext7DaysView()
+    {
+        recViewAdapterWeek adaptar = new recViewAdapterWeek(Utilities.getNext6Days(getActivity(), Calendar.getInstance()), getActivity());
+        LinearLayoutManager linLayoutVertical = new LinearLayoutManager(getActivity());
+        linLayoutVertical.setOrientation(LinearLayoutManager.VERTICAL);
+        nextWeekList.setNestedScrollingEnabled(false);
+        nextWeekList.setAdapter(adaptar);
+        nextWeekList.setLayoutManager(linLayoutVertical);
+        nextWeekList.setItemAnimator(new DefaultItemAnimator());
+
+    }
+
+    private void setupCurrentDayRecView()
+    {
+        recViewAdapterDay adaptar = new recViewAdapterDay(getActivity(), Calendar.getInstance());
+        currentDayList.setAdapter(adaptar);
+        LinearLayoutManager linLayoutVertical = new LinearLayoutManager(getActivity());
+        linLayoutVertical.setOrientation(LinearLayoutManager.VERTICAL);
+        currentDayList.setLayoutManager(linLayoutVertical);
+        currentDayList.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
@@ -178,8 +243,9 @@ public class taskFragment extends Fragment implements pickerListner, AdapterView
         this.dayPicked = dayPicked;
         this.monthPicked = monthPicked;
         this.yearPicked = yearPicked;
+        Calendar c = Utilities.makeCal(minutePicked,hourPicked,dayPicked,monthPicked,yearPicked);
         //Log.d(TAG, String.valueOf(this.monthPicked));
-        dueDate.setText(this.monthPicked + "/" + this.dayPicked + "/" + this.yearPicked + " @ " + this.hourPicked + ":" + this.minutePicked);
+        dueDate.setText(Utilities.fullDateWithTime.format(c.getTime()));
 
     }
 
@@ -191,31 +257,4 @@ public class taskFragment extends Fragment implements pickerListner, AdapterView
         timePicker.show(getFragmentManager(), "picker");
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
-    {
-       switch((String) urgSelector.getItemAtPosition(i))
-        {
-            case "Low":
-                this.urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_LOW;
-                break;
-            case "Medium":
-                this.urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_MEDIUM;
-                break;
-            case "High":
-                this.urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_HIGH;
-                break;
-            case "Criticle":
-                this.urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_CRIT;
-                break;
-            default:
-                this.urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_LOW;
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView)
-    {
-        this.urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_LOW;
-    }
 }

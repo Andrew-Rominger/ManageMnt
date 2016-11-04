@@ -1,14 +1,12 @@
 package com.andrewrominger.managemnt;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.andrewrominger.managemnt.sqlDatabase.dbHelperS;
@@ -17,7 +15,6 @@ import com.andrewrominger.managemnt.sqlDatabase.sqlContract;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Andrew on 10/18/2016.
@@ -25,6 +22,8 @@ import java.util.Date;
 
 public class Utilities
 {
+    public static SimpleDateFormat MonthDayYearsdf = new SimpleDateFormat("MMM d, yyyy");
+    public static SimpleDateFormat fullDateWithTime = new SimpleDateFormat("MMM d, yyyy @ h:mm aa");
     public static ArrayList<Calendar> getDays(Context context, Calendar calendar)
     {
         ArrayList<Calendar> arr = new ArrayList<>();
@@ -34,7 +33,6 @@ public class Utilities
         //Log.i("Day retured", String.valueOf(dayOfWeek));
         c.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
         //Log.i("First Day", String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
         for(int i = 0;i<42;i++)
         {
             Calendar cal = Calendar.getInstance();
@@ -48,8 +46,10 @@ public class Utilities
     }
     public static void hideSoftKeyboard(Activity activity)
     {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        if(activity != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        }
     }
     public static void createTask(Calendar date, Context context, String title, String description, int urgency)
     {
@@ -67,14 +67,37 @@ public class Utilities
         values.put(sqlContract.FeedEntryTasks.COLUMN_YEAR, date.get(Calendar.YEAR));
         values.put(sqlContract.FeedEntryTasks.COLUMN_MINUTE, date.get(Calendar.MINUTE));
         values.put(sqlContract.FeedEntryTasks.COLUMN_HOUR, date.get(Calendar.HOUR));
-        Long newRowID = db.insert(sqlContract.FeedEntryTasks.TABLE_NAME, null, values);
+        try {
+            Long newRowID = db.insert(sqlContract.FeedEntryTasks.TABLE_NAME, null, values);
+        }catch (android.database.sqlite.SQLiteException e)
+        {
+            Toast.makeText(context, "Error Creating Task", Toast.LENGTH_LONG).show();
+            return;
+        }
         Toast.makeText(context, "Task Created!", Toast.LENGTH_LONG).show();
+        db.close();
 
     }
     public static void createTask(Context context, int minute, int hour, int day, int month, int year, String title, String description, int urgency)
     {
         Calendar c = makeCal(minute, hour, day, month, year);
         createTask(c,context,title,description,urgency);
+    }
+    public static String getUrgString(int urgency)
+    {
+        switch (urgency)
+        {
+            case sqlContract.FeedEntryTasks.LEVEL_URGANCY_LOW:
+                return "Low";
+            case sqlContract.FeedEntryTasks.LEVEL_URGANCY_MEDIUM:
+                return "Medium";
+            case sqlContract.FeedEntryTasks.LEVEL_URGANCY_HIGH:
+                return "High";
+            case sqlContract.FeedEntryTasks.LEVEL_URGANCY_CRIT:
+                return "Criticle";
+            default:
+                return "Error getting urgency";
+        }
     }
 
     public static Calendar makeCal(int minute, int hour, int day, int month, int year)
@@ -130,9 +153,70 @@ public class Utilities
             list.add(new Task(c));
             c.moveToNext();
         }
+        db.close();
         return list;
     }
 
+    public static ArrayList<Task> getDaysTasks(Context context, Calendar day)
+    {
+        Calendar calendar = day;
+        dbHelperS helper = new dbHelperS(context);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        ArrayList<Task> list = new ArrayList<>();
+        String[] projection = {
+                sqlContract.FeedEntryTasks._ID,
+                sqlContract.FeedEntryTasks.COLUMN_TASK_NAME,
+                sqlContract.FeedEntryTasks.COLUMN_TASK_DESCRIPTION,
+                sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS,
+                sqlContract.FeedEntryTasks.COLUMN_URGANCY,
+                sqlContract.FeedEntryTasks.COLUMN_DAY,
+                sqlContract.FeedEntryTasks.COLUMN_MONTH,
+                sqlContract.FeedEntryTasks.COLUMN_YEAR
+        };
+        String sortOrder = sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS + " ASC";
+        String selection = sqlContract.FeedEntryTasks.COLUMN_DAY + " = ? AND " + sqlContract.FeedEntryTasks.COLUMN_MONTH + " = ? AND "+ sqlContract.FeedEntryTasks.COLUMN_YEAR + " = ?";
+        String[] selectionArgs = {String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)), String.valueOf(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))};
 
+        Cursor c = db.query(
+                sqlContract.FeedEntryTasks.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            list.add(new Task(c));
+            c.moveToNext();
+        }
+        db.close();
+        return list;
+    }
+    public static void deleteAllTasks(Context context)
+    {
+        dbHelperS helper = new dbHelperS(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.delete(sqlContract.FeedEntryTasks.TABLE_NAME, null, null);
+        db.close();
+    }
+    public static ArrayList<Calendar> getNext6Days(Context context, Calendar from)
+    {
+        ArrayList<Calendar> cal = new ArrayList<>();
+        Log.i("getNext6Days", "PASSED: " +Utilities.MonthDayYearsdf.format(from.getTime()));
+        for(int i = 0;i<7;i++)
+        {
+            Calendar temp = Calendar.getInstance();
+            temp.setTimeInMillis(from.getTimeInMillis());
+            temp.add(Calendar.DAY_OF_MONTH, i+1);
+            cal.add(temp);
+            Log.i("getNext6Days", "ADDING: " + Utilities.MonthDayYearsdf.format(temp.getTime()));
+        }
+        Log.i("getNext6Days", String.valueOf(cal.size()));
+        return cal;
+
+    }
 }
 

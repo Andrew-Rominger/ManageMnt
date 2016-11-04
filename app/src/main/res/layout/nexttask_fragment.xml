@@ -1,37 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/roundedbckg">
+    android:elevation="4dp">
+
+    <TextView
+        android:text=""
+        android:textSize="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/noTasks"
+        android:paddingLeft="4dp"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+    <TextView
+        android:text="Next task: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nextTaskString"
+        android:textSize="28sp"
+        android:layout_marginLeft="4dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:text="Due Date: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/duedateString"
+        android:layout_marginLeft="4dp"
+        android:textSize="20sp"
+        android:layout_below="@+id/nextTaskString"
+        android:layout_alignParentStart="true"
+         />
+
+
+    <TextView
+        android:text="Urgency: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/urgencyString"
+        android:textSize="20sp"
+        android:layout_marginLeft="4dp"
+        android:layout_below="@+id/duedateString"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Description:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/descriptionString"
+        android:textSize="20sp"
+        android:layout_marginLeft="4dp"
+        android:layout_below="@+id/urgencyString"
+        android:layout_alignParentStart="true" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="28sp"
         android:id="@+id/nextTaskTitle"
-        android:textColor="@android:color/black"
-        android:text="PLACEHOLDER_TASKNAME"/>
+        android:textColor="@android:color/white"
+        android:text="Task Name"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/nextTaskString" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textColor="@color/colorGreenExtra"
+        android:textColor="@android:color/white"
         android:id="@+id/nextTaskDueDate"
-        android:text="PLACEHOLDER_DUEDATE"/>
+        android:text="Due Date"
+        android:layout_below="@+id/nextTaskTitle"
+        android:layout_toEndOf="@+id/duedateString"
+        android:layout_above="@+id/urgencyString"
+        android:gravity="center_vertical"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:id="@+id/nextTaskDueDescription"
+        android:text="PLACEHOLDER_Description"
+        android:layout_marginLeft="4dp"
+        android:layout_below="@+id/descriptionString"
+        android:layout_alignParentStart="true" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:id="@+id/nextTaskDueUrgency"
         android:textColor="@android:color/white"
-        android:text="PLACEHOLDER_URGANCY"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"
-        android:id="@+id/nextTaskDueDescription"
-        android:text="PLACEHOLDER_Description"/>
+        android:text="Task Urgency"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/duedateString"
+        android:layout_toEndOf="@+id/urgencyString" />
 
-</LinearLayout>
+
+</RelativeLayout>

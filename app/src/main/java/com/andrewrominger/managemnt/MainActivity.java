@@ -75,6 +75,9 @@ public class MainActivity extends AppCompatActivity
 
     FrameLayout fragmentholder;
 
+    taskFragment TaskFragment;
+    homeFragment HomeFragment;
+
     public ListView navList;
     menuAdapter ma;
 
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity
         navList.setAdapter(ma);
         navList.setOnItemClickListener(new DrawerItemClickListner());
 
+
         setSupportActionBar(toolbar);
 
         ActionBar bar = getSupportActionBar();
@@ -119,13 +123,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle("Test Title 1");
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                getSupportActionBar().setTitle("Test Title 2");
             }
         };
         bar.setDisplayHomeAsUpEnabled(true);
@@ -168,6 +170,7 @@ public class MainActivity extends AppCompatActivity
             transaction = fm.beginTransaction();
             changeFragment(i);
         }
+
         private void changeFragment(int i)
         {
             switch (i)
@@ -182,14 +185,18 @@ public class MainActivity extends AppCompatActivity
         private void moveToTasks()
         {
             Log.i(TAG, "Moving to tasks");
-            transaction.replace(R.id.mainFragmentHolder,new taskFragment(), "taskFragment");
+            TaskFragment = new taskFragment();
+            transaction.replace(R.id.mainFragmentHolder,TaskFragment, "taskFragment");
+            transaction.addToBackStack(null);
             transaction.commit();
         }
 
         private void moveToHome()
         {
-                transaction.replace(R.id.mainFragmentHolder, new homeFragment());
-                transaction.commit();
+            HomeFragment =  new homeFragment();
+            transaction.replace(R.id.mainFragmentHolder,HomeFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 }

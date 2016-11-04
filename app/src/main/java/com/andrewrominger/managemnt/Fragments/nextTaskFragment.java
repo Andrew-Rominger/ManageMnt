@@ -80,7 +80,8 @@ public class nextTaskFragment extends Fragment
         while (!c.isAfterLast())
         {
             SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy hh:mm aa");
-            Log.i(TAG, sdf.format(Utilities.makeCal(c.getLong(c.getColumnIndexOrThrow(sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS))).getTime()));
+            Log.i(TAG, sdf.format(Utilities.makeCal(c.getLong(c.getColumnIndexOrThrow(sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS))).getTime()) + "| URGENCY: " + c.getInt(c.getColumnIndexOrThrow(sqlContract.FeedEntryTasks.COLUMN_URGANCY)));
+
             c.moveToNext();
         }
         c.moveToFirst();
@@ -92,6 +93,14 @@ public class nextTaskFragment extends Fragment
 
     public void setupNextTask(Cursor c)
     {
+        if(c.getCount() == 0)
+        {
+            title.setText("No tasks set!");
+            description.setText("");
+            urgency.setText("");
+            dueDate.setText("");
+            return;
+        }
         Task task = new Task(c);
         Calendar now = Calendar.getInstance();
         if(task.getDueDateMs() < now.getTimeInMillis())
@@ -135,7 +144,7 @@ public class nextTaskFragment extends Fragment
             }
             else
             {
-                dueDate.setText(task.getDueDate().get(Calendar.MONTH)+1 + "/" + task.getDueDate().get(Calendar.DAY_OF_MONTH) + "/" + task.getDueDate().get(Calendar.YEAR));
+                dueDate.setText((task.getDueDate().get(Calendar.MONTH)+1) + "/" + task.getDueDate().get(Calendar.DAY_OF_MONTH) + "/" + task.getDueDate().get(Calendar.YEAR));
             }
         }
 

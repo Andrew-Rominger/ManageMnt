@@ -37,4 +37,10 @@ public class homeFragment extends Fragment
         transaction.commit();
         super.onStart();
     }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState)
+    {
+        super.onViewStateRestored(savedInstanceState);
+    }
 }
