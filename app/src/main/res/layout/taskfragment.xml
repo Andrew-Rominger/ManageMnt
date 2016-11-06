@@ -41,14 +41,7 @@
             android:id="@+id/dimmer"
             android:background="@color/colorGreyDark"
             android:alpha="0"/>
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/addTaskFrame"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="55dp">
-        </FrameLayout>
+
 
     </RelativeLayout>
 </RelativeLayout>

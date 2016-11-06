@@ -5,9 +5,9 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:id="@+id/holder"
-    android:background="@drawable/roundedbckg"
-    android:backgroundTint="@color/colorPrimary"
-    android:elevation="4dp">
+    android:paddingTop="25dp"
+    android:background="@drawable/square"
+    android:backgroundTint="@color/colorAccent">
 
     <EditText
         android:layout_width="350dp"
@@ -24,19 +24,6 @@
         android:gravity="top"
         android:layout_centerHorizontal="true"
         />
-    <TextView
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/taskAddDescription"
-        android:layout_marginTop="4dp"
-        android:text="Due Date"
-        android:id="@+id/taskDueDate"
-        android:backgroundTint="@color/colorGreyLight"
-        android:textSize="25sp"
-        android:textAlignment="center"
-        android:background="@drawable/roundededges"
-        android:layout_alignStart="@+id/taskAddDescription"
-        android:layout_toStartOf="@+id/taskAddDueDateButton" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -86,21 +73,6 @@
         android:layout_alignBottom="@+id/urgencyText"
         android:layout_toEndOf="@+id/urgencyText" />
 
-    <TextView
-        android:text="Add a task"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/addTask"
-        android:background="@drawable/roundedrectangle"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:layout_marginBottom="4dp"
-        android:textSize="20sp"
-        android:layout_marginTop="4dp"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
     <EditText
         android:layout_width="350dp"
         android:layout_height="wrap_content"
@@ -111,8 +83,21 @@
         android:textAlignment="center"
         android:background="@drawable/roundededges"
         android:backgroundTint="@color/colorGreyLight"
-        android:layout_below="@+id/addTask"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:text="Due Date"
+        android:id="@+id/taskDueDate"
+        android:backgroundTint="@color/colorGreyLight"
+        android:textSize="25sp"
+        android:layout_marginTop="2dp"
+        android:textAlignment="center"
+        android:background="@drawable/roundededges"
+        android:layout_below="@+id/taskAddDescription"
+        android:layout_alignStart="@+id/taskAddDescription"
+        android:layout_toStartOf="@+id/taskAddDueDateButton" />
 
 
 </RelativeLayout>

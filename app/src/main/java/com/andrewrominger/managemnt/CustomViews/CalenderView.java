@@ -152,6 +152,7 @@ public class CalenderView extends LinearLayout
     }
     public void animateoutLeft()
     {
+        adapter.notifyDataSetChanged();
         Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_left);
         anim.setDuration(250);
         grid.startAnimation(anim);
@@ -168,6 +169,7 @@ public class CalenderView extends LinearLayout
     }
     public void animateOutRight()
     {
+        adapter.notifyDataSetChanged();
         Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_right);
         anim.setDuration(250);
         grid.startAnimation(anim);

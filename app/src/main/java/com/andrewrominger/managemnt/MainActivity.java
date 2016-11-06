@@ -31,6 +31,7 @@ import com.andrewrominger.managemnt.Fragments.addTaskFragment;
 import com.andrewrominger.managemnt.Fragments.homeFragment;
 import com.andrewrominger.managemnt.Fragments.taskFragment;
 
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -51,8 +52,6 @@ public class MainActivity extends AppCompatActivity
 
     FrameLayout fragmentholder;
 
-    taskFragment TaskFragment;
-    homeFragment HomeFragment;
 
     public ListView navList;
     menuAdapter ma;
@@ -91,15 +90,23 @@ public class MainActivity extends AppCompatActivity
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
                 transaction.setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left);
-                transaction.replace(R.id.addTaskFrame, new addTaskFragment());
+                transaction.replace(R.id.addTaskFrame, new addTaskFragment(), "addTaskFragment");
                 transaction.addToBackStack(null);
                 dimmer.setAlpha((.5f*255)/255);
+                transaction.addToBackStack(null);
+                Animation anim = AnimationUtils.loadAnimation(view.getContext(),R.anim.slide_left);
+                anim.setDuration(500);
+                anim.setFillAfter(true);
+                addTaskTab.startAnimation(anim);
                 transaction.commit();
+
+                Display display = getWindowManager().getDefaultDisplay();
 
             }
         });
         transaction = fm.beginTransaction();
         transaction.replace(R.id.mainFragmentHolder,new homeFragment(), "taskFragment");
+        transaction.addToBackStack(null);
         transaction.commit();
 
         ma = new menuAdapter(this, com.andrewrominger.managemnt.MenuItem.getData());
@@ -183,7 +190,7 @@ public class MainActivity extends AppCompatActivity
         private void moveToTasks()
         {
             Log.i(TAG, "Moving to tasks");
-            TaskFragment = new taskFragment();
+            taskFragment TaskFragment = new taskFragment();
             transaction.replace(R.id.mainFragmentHolder,TaskFragment, "taskFragment");
             transaction.addToBackStack(null);
             transaction.commit();
@@ -192,7 +199,7 @@ public class MainActivity extends AppCompatActivity
 
         private void moveToHome()
         {
-            HomeFragment =  new homeFragment();
+            homeFragment HomeFragment =  new homeFragment();
             transaction.replace(R.id.mainFragmentHolder,HomeFragment);
             transaction.addToBackStack(null);
             transaction.commit();

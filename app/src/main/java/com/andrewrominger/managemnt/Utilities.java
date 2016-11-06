@@ -230,7 +230,20 @@ public class Utilities
         c.moveToFirst();
         while (!c.isAfterLast())
         {
-            tasks.add(makeCal(c));
+            Calendar newCal = makeCal(c);
+            int q = tasks.size();
+            int isoff = 0;
+            for(int i = 0;i<q;i++)
+            {
+                if(tasks.get(i).get(Calendar.DAY_OF_YEAR)!= newCal.get(Calendar.DAY_OF_YEAR))
+                {
+                   isoff++;
+                }
+            }
+            if(isoff == tasks.size())
+            {
+                tasks.add(newCal);
+            }
             c.moveToNext();
         }
         return tasks;
