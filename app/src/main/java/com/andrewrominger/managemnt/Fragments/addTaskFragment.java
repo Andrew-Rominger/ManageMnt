@@ -1,6 +1,8 @@
 package com.andrewrominger.managemnt.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andrewrominger.managemnt.addTaskListner;
 import com.andrewrominger.managemnt.pickerListner;
 import com.andrewrominger.managemnt.R;
 import com.andrewrominger.managemnt.Utilities;
@@ -31,7 +34,8 @@ import java.util.Calendar;
  * Created by Andre on 11/4/2016.
  */
 
-public class addTaskFragment extends android.support.v4.app.Fragment implements pickerListner, AdapterView.OnItemSelectedListener
+@SuppressLint("ValidFragment")
+public class addTaskFragment extends Fragment implements pickerListner, AdapterView.OnItemSelectedListener
 {
     String TAG = addTaskFragment.class.getSimpleName();
     EditText title,description;
@@ -40,6 +44,8 @@ public class addTaskFragment extends android.support.v4.app.Fragment implements 
     Spinner spinner;
     Button addTask;
 
+    taskFragment fragment;
+
     int dayPicked;
     int monthPicked;
     int yearPicked;
@@ -47,12 +53,19 @@ public class addTaskFragment extends android.support.v4.app.Fragment implements 
     int hourPicked;
     int minutePicked;
 
+    @SuppressLint("ValidFragment")
+    public addTaskFragment(taskFragment fragment)
+    {
+        this.fragment = fragment;
+    }
+
     int urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_LOW;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         return inflater.inflate(R.layout.addtaskfragment, container, false);
     }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
@@ -72,6 +85,12 @@ public class addTaskFragment extends android.support.v4.app.Fragment implements 
                 openPickers();
             }
         });
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.urgencyArray, R.layout.simplespinnerlayouy);
+
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
         addTask.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -86,21 +105,17 @@ public class addTaskFragment extends android.support.v4.app.Fragment implements 
                     String des = description.getText().toString();
                     String tit = title.getText().toString();
                     Calendar c = Utilities.makeCal(minutePicked, hourPicked, dayPicked, monthPicked, yearPicked);
-                    Log.i(TAG, "URG is " + urgh);
                     Utilities.createTask(c, getActivity(), tit, des, urgh);
+                    spinner.setAdapter(adapter);
                     description.setText("");
                     title.setText("");
                     dueDate.setText("Due Date");
+                    fragment.updateRecview();
                 }
 
             }
         });
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.urgencyArray, R.layout.simplespinnerlayouy);
 
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
 
         super.onViewCreated(view, savedInstanceState);
     }
@@ -130,7 +145,6 @@ public class addTaskFragment extends android.support.v4.app.Fragment implements 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
     {
-        Log.i(TAG, "PASSED " + spinner.getItemAtPosition(i));
         switch((String) spinner.getItemAtPosition(i))
         {
             case "Low":
@@ -155,4 +169,5 @@ public class addTaskFragment extends android.support.v4.app.Fragment implements 
     {
         this.urgh = sqlContract.FeedEntryTasks.LEVEL_URGANCY_LOW;
     }
+
 }

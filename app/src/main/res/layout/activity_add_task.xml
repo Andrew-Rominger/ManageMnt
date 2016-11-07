@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.andrewrominger.managemnt.CustomViews.SlidingRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:id="@+id/holder"
-    android:background="@color/colorPrimary"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentEnd="true"
-    android:layout_marginBottom="55dp">
+    android:background="@color/colorPrimary">
 
     <ImageView
         android:layout_width="40dp"
@@ -27,7 +25,7 @@
         android:text="Add task"
         android:background="@drawable/roundededges"
         android:backgroundTint="@color/colorAccent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:layout_marginRight="4dp"
         android:layout_below="@+id/taskDueDate"
@@ -40,7 +38,7 @@
         android:textSize="20sp"
         android:id="@+id/urgencyText"
         android:layout_below="@+id/taskDueDate"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_alignStart="@+id/taskDueDate"
         />
 
@@ -49,7 +47,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/taskAddSpinner"
         android:paddingRight="10dp"
-        android:layout_marginTop="4dp"
         style="@style/Widget.AppCompat.Light.DropDownItem.Spinner"
         android:layout_alignBottom="@+id/urgencyText"
         android:layout_toEndOf="@+id/urgencyText" />
@@ -71,12 +68,19 @@
         android:layout_height="wrap_content"
         android:text="Due Date"
         android:id="@+id/taskDueDate"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:textAlignment="viewStart"
         android:layout_below="@+id/taskAddDescription"
         android:layout_alignParentStart="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        android:id="@+id/view"
+        android:layout_below="@+id/taskAddTitle"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -87,9 +91,15 @@
         android:id="@+id/taskAddTitle"
         android:textAlignment="viewStart"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        android:id="@+id/view2"
+        android:layout_below="@+id/taskAddDescription"
+        android:layout_alignParentStart="true" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -99,4 +109,4 @@
         android:layout_alignParentStart="true" />
 
 
-</RelativeLayout>
+</com.andrewrominger.managemnt.CustomViews.SlidingRelativeLayout>

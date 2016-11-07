@@ -22,6 +22,7 @@ public class sqlContract
         public static final String COLUMN_YEAR = "taskYear";
         public static final String COLUMN_HOUR = "taskHour";
         public static final String COLUMN_MINUTE = "taskMinute";
+        public static final String COLUMN_ISCOMPLETE = "iscomplete";
 
 
         //DEFINE URGANCY LEVELS
