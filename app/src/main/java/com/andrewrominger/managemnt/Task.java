@@ -1,6 +1,7 @@
 package com.andrewrominger.managemnt;
 
 import android.database.Cursor;
+import android.util.Log;
 
 import com.andrewrominger.managemnt.sqlDatabase.sqlContract;
 
@@ -22,7 +23,16 @@ public class Task
     private String year;
     private String minute;
     private String hour;
+    private boolean isCompleted;
+    String TAG = Task.class.getSimpleName();
 
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
 
     public Task(String description, Calendar dueDate, long dueDateMs, String title, int urgency)
     {
@@ -42,7 +52,7 @@ public class Task
     }
     public Task(Cursor c)
     {
-        this.title =  c.getString(c.getColumnIndexOrThrow(sqlContract.FeedEntryTasks.COLUMN_TASK_NAME));
+        this.title = c.getString(c.getColumnIndexOrThrow(sqlContract.FeedEntryTasks.COLUMN_TASK_NAME));
         this.description = c.getString(c.getColumnIndexOrThrow(sqlContract.FeedEntryTasks.COLUMN_TASK_DESCRIPTION));
         this.dueDateMs = c.getLong(c.getColumnIndexOrThrow(sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS));
         this.urgency = c.getInt(c.getColumnIndexOrThrow(sqlContract.FeedEntryTasks.COLUMN_URGANCY));

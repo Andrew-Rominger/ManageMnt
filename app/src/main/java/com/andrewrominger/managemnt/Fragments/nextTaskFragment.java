@@ -46,51 +46,12 @@ public class nextTaskFragment extends Fragment
         description = (TextView) view.findViewById(R.id.nextTaskDueDescription);
         dueDate = (TextView) view.findViewById(R.id.nextTaskDueDate);
         urgency = (TextView) view.findViewById(R.id.nextTaskDueUrgency);
-
-    }
-
-    @Override
-    public void onStart()
-    {
-        helper = new dbHelperS(getActivity());
-        db = helper.getReadableDatabase();
-        String[] projection = {
-                sqlContract.FeedEntryTasks._ID,
-                sqlContract.FeedEntryTasks.COLUMN_TASK_NAME,
-                sqlContract.FeedEntryTasks.COLUMN_TASK_DESCRIPTION,
-                sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS,
-                sqlContract.FeedEntryTasks.COLUMN_URGANCY,
-                sqlContract.FeedEntryTasks.COLUMN_DAY,
-                sqlContract.FeedEntryTasks.COLUMN_MONTH,
-                sqlContract.FeedEntryTasks.COLUMN_YEAR
-        };
-        String sortOrder = sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS + " ASC";
-
-        Cursor c = db.query(
-                sqlContract.FeedEntryTasks.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                sortOrder
-        );
-        Log.i(TAG, "Grabbed " + c.getCount() + " tasks");
-        c.moveToFirst();
-        while (!c.isAfterLast())
-        {
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy hh:mm aa");
-            Log.i(TAG, sdf.format(Utilities.makeCal(c.getLong(c.getColumnIndexOrThrow(sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS))).getTime()) + "| URGENCY: " + c.getInt(c.getColumnIndexOrThrow(sqlContract.FeedEntryTasks.COLUMN_URGANCY)));
-
-            c.moveToNext();
+        Cursor c = Utilities.getTaskC(getActivity());
+        if(c != null) {
+            setupNextTask(c);
         }
-        c.moveToFirst();
-        setupNextTask(c);
 
-
-        super.onStart();
     }
-
     public void setupNextTask(Cursor c)
     {
         if(c.getCount() == 0)
@@ -144,7 +105,9 @@ public class nextTaskFragment extends Fragment
             }
             else
             {
-                dueDate.setText((task.getDueDate().get(Calendar.MONTH)+1) + "/" + task.getDueDate().get(Calendar.DAY_OF_MONTH) + "/" + task.getDueDate().get(Calendar.YEAR));
+                Calendar C = Utilities.makeCal(task.getDueDateMs());
+                String s = Utilities.fullDateWithTime.format(C.getTime());
+                dueDate.setText(s);
             }
         }
 

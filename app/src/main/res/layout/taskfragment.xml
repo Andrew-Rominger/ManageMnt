@@ -4,11 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
         <android.support.v4.widget.NestedScrollView
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/taskScr"
-            android:background="@color/colorGreyDark"
             android:paddingBottom="4dp"
             >
             <RelativeLayout
@@ -31,24 +29,47 @@
             </RelativeLayout>
 
         </android.support.v4.widget.NestedScrollView>
-    <RelativeLayout
+
+    <com.andrewrominger.managemnt.CustomViews.SlidingRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/dimmer"
-            android:background="@color/colorGreyDark"
-            android:alpha="0"/>
-        <FrameLayout
+        android:id="@+id/ctf">
+        <com.andrewrominger.managemnt.CustomViews.SlidingFrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/addTaskFrame"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="55dp">
-        </FrameLayout>
+        </com.andrewrominger.managemnt.CustomViews.SlidingFrameLayout>
 
-    </RelativeLayout>
+        <com.andrewrominger.managemnt.CustomViews.SlidingFrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/addTaskTab">
+            <com.andrewrominger.managemnt.CustomViews.SlidingRelativeLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/roundededgesorange"
+                >
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent"
+                    android:src="@color/colorAccent"
+                    android:id="@+id/rect"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addtaskfab"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/plus" />
+            </com.andrewrominger.managemnt.CustomViews.SlidingRelativeLayout>
+        </com.andrewrominger.managemnt.CustomViews.SlidingFrameLayout>
+    </com.andrewrominger.managemnt.CustomViews.SlidingRelativeLayout>
 </RelativeLayout>

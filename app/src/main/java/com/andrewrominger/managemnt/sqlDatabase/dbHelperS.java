@@ -16,17 +16,18 @@ public class dbHelperS extends SQLiteOpenHelper
     private static final String COMMA_SEP = ",";
     private static final String INT_TYPE = " INTEGER";
     private static final String SQL_CREATE_ENTRIES =
-                    "CREATE TABLE " + sqlContract.FeedEntryTasks.TABLE_NAME + " (" +
-                    sqlContract.FeedEntryTasks._ID + " INTEGER PRIMARY KEY," +
-                    sqlContract.FeedEntryTasks.COLUMN_TASK_NAME + TEXT_TYPE  + COMMA_SEP +
-                    sqlContract.FeedEntryTasks.COLUMN_TASK_DESCRIPTION + TEXT_TYPE  + COMMA_SEP +
-                    sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS + INT_TYPE  + COMMA_SEP +
-                    sqlContract.FeedEntryTasks.COLUMN_URGANCY + INT_TYPE  + COMMA_SEP +
-                    sqlContract.FeedEntryTasks.COLUMN_MONTH + INT_TYPE + COMMA_SEP +
-                    sqlContract.FeedEntryTasks.COLUMN_DAY + INT_TYPE + COMMA_SEP +
-                    sqlContract.FeedEntryTasks.COLUMN_YEAR + INT_TYPE + COMMA_SEP +
-                    sqlContract.FeedEntryTasks.COLUMN_HOUR + INT_TYPE + COMMA_SEP +
-                    sqlContract.FeedEntryTasks.COLUMN_MINUTE + INT_TYPE + " )";
+                            "CREATE TABLE " + sqlContract.FeedEntryTasks.TABLE_NAME + " (" +
+                            sqlContract.FeedEntryTasks._ID + " INTEGER PRIMARY KEY," +
+                            sqlContract.FeedEntryTasks.COLUMN_TASK_NAME + TEXT_TYPE  + COMMA_SEP +
+                            sqlContract.FeedEntryTasks.COLUMN_TASK_DESCRIPTION + TEXT_TYPE  + COMMA_SEP +
+                            sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS + INT_TYPE  + COMMA_SEP +
+                            sqlContract.FeedEntryTasks.COLUMN_URGANCY + INT_TYPE  + COMMA_SEP +
+                            sqlContract.FeedEntryTasks.COLUMN_MONTH + INT_TYPE + COMMA_SEP +
+                            sqlContract.FeedEntryTasks.COLUMN_DAY + INT_TYPE + COMMA_SEP +
+                            sqlContract.FeedEntryTasks.COLUMN_YEAR + INT_TYPE + COMMA_SEP +
+                            sqlContract.FeedEntryTasks.COLUMN_HOUR + INT_TYPE + COMMA_SEP +
+                            sqlContract.FeedEntryTasks.COLUMN_MINUTE + INT_TYPE + COMMA_SEP +
+                            sqlContract.FeedEntryTasks.COLUMN_ISCOMPLETE + INT_TYPE + " )";
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + sqlContract.FeedEntryTasks.TABLE_NAME;
     public dbHelperS(Context context)

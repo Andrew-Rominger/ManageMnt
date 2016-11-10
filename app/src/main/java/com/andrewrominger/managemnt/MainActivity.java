@@ -1,10 +1,14 @@
 package com.andrewrominger.managemnt;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,24 +16,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.andrewrominger.managemnt.CustomViews.SlidingFrameLayout;
 import com.andrewrominger.managemnt.Fragments.addTaskFragment;
+import com.andrewrominger.managemnt.Fragments.calendarFragment;
 import com.andrewrominger.managemnt.Fragments.homeFragment;
 import com.andrewrominger.managemnt.Fragments.taskFragment;
+
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -44,15 +51,15 @@ public class MainActivity extends AppCompatActivity
     FragmentTransaction transaction;
     ScrollView sv;
     ViewFlipper viewFlipper;
-    FrameLayout dimmer;
-    RelativeLayout addTaskTab;
-    int urgh = 0;
+
+    boolean isTaskDisplayed;
+    TextView numTasks, numDone, numOver;
+    ImageView rect;
+    addTaskFragment frag;
 
 
     FrameLayout fragmentholder;
 
-    taskFragment TaskFragment;
-    homeFragment HomeFragment;
 
     public ListView navList;
     menuAdapter ma;
@@ -66,55 +73,41 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.maindrawer);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder().setDefaultFontPath("fonts/Raleway-Bold.ttf").setFontAttrId(R.attr.fontPath).build());
-
         toolbar = (Toolbar) findViewById(R.id.mainToolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_mainDrawer);
         navList = (ListView) findViewById(R.id.menuList);
         fm = getFragmentManager();
         sv = (ScrollView) findViewById(R.id.scrollViewMain);
         fragmentholder = (FrameLayout) findViewById(R.id.addTaskFrame);
-        dimmer = (FrameLayout) findViewById(R.id.dimmer);
-        addTaskTab = (RelativeLayout) findViewById(R.id.addTaskTab);
-        addTaskTab.setVisibility(RelativeLayout.GONE);
+        rect = (ImageView) findViewById(R.id.rect);
+        isTaskDisplayed = false;
         //sv.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
-        addTaskTab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                dimmer = (FrameLayout) findViewById(R.id.dimmer);
-                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-                android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
-                transaction.setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left);
-                transaction.replace(R.id.addTaskFrame, new addTaskFragment());
-                transaction.addToBackStack(null);
-                dimmer.setAlpha((.5f*255)/255);
-                transaction.commit();
 
-            }
-        });
         transaction = fm.beginTransaction();
         transaction.replace(R.id.mainFragmentHolder,new homeFragment(), "taskFragment");
+        //transaction.addToBackStack(null);
         transaction.commit();
 
         ma = new menuAdapter(this, com.andrewrominger.managemnt.MenuItem.getData());
 
         navList.setAdapter(ma);
         navList.setOnItemClickListener(new DrawerItemClickListner());
-
-
         setSupportActionBar(toolbar);
 
         ActionBar bar = getSupportActionBar();
+        getSupportActionBar().setElevation(0);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer)
         {
             @Override
-            public void onDrawerOpened(View drawerView) {
+            public void onDrawerOpened(View drawerView)
+            {
                 super.onDrawerOpened(drawerView);
             }
 
@@ -125,10 +118,6 @@ public class MainActivity extends AppCompatActivity
         };
         bar.setDisplayHomeAsUpEnabled(true);
         bar.setHomeButtonEnabled(true);
-    }
-    public void animateInAddTaskFragment()
-    {
-
     }
     @Override
     protected void onPostCreate(Bundle savedInstanceState)
@@ -161,42 +150,63 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
         {
+
             Log.i(TAG, "Item " + i + " Clicked");
             fm = getFragmentManager();
             drawerLayout.closeDrawers();
-            transaction = fm.beginTransaction();
+
             changeFragment(i);
         }
 
         private void changeFragment(int i)
         {
 
+            if(i != 1)
+            {
+                Animation anim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_rightt);
+                anim.setDuration(500);
+                anim.setFillAfter(true);
+            }
+
             switch (i)
             {
                 case 0:
+                    getSupportActionBar().setElevation(0);
                     moveToHome();
                     break;
                 case 1:
+                    getSupportActionBar().setElevation(4 * getResources().getDisplayMetrics().density);
                     moveToTasks();
+                    break;
+                case 2:
+                    getSupportActionBar().setElevation(4 * getResources().getDisplayMetrics().density);
+                    moveToCalendar();
             }
         }
         private void moveToTasks()
         {
+            transaction = fm.beginTransaction();
             Log.i(TAG, "Moving to tasks");
-            TaskFragment = new taskFragment();
+            taskFragment TaskFragment = new taskFragment();
             transaction.replace(R.id.mainFragmentHolder,TaskFragment, "taskFragment");
-            transaction.addToBackStack(null);
+            //transaction.addToBackStack(null);
             transaction.commit();
-            addTaskTab.setVisibility(RelativeLayout.VISIBLE);
         }
 
         private void moveToHome()
         {
-            HomeFragment =  new homeFragment();
+            transaction = fm.beginTransaction();
+            homeFragment HomeFragment =  new homeFragment();
             transaction.replace(R.id.mainFragmentHolder,HomeFragment);
-            transaction.addToBackStack(null);
+            //transaction.addToBackStack(null);
             transaction.commit();
-            addTaskTab.setVisibility(RelativeLayout.GONE);
+        }
+        private void moveToCalendar()
+        {
+            transaction = fm.beginTransaction();
+            transaction.replace(R.id.mainFragmentHolder,new calendarFragment());
+            //transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 }

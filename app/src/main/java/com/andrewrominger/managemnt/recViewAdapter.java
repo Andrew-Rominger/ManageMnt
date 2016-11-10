@@ -34,14 +34,13 @@ public class recViewAdapter extends RecyclerView.Adapter<recViewAdapter.viewHold
     @Override
     public recViewAdapter.viewHolderWeek onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        Log.i(TAG, "onCreateViewHolder");
         return new viewHolderWeek(inflater.inflate(R.layout.dayinweek, parent, false), context);
     }
 
     @Override
     public void onBindViewHolder(recViewAdapter.viewHolderWeek holder, int position)
     {
-        Log.i(TAG, "BINDING");
+
         Calendar current = list.get(position);
         holder.setData(current,position);
     }
@@ -53,11 +52,20 @@ public class recViewAdapter extends RecyclerView.Adapter<recViewAdapter.viewHold
             this.list.add(c);
         }
     }
+    public void setData(ArrayList<Calendar> c)
+    {
+        this.list = c;
+    }
 
     @Override
     public int getItemCount()
     {
         return list.size();
+    }
+
+    public void updatedList()
+    {
+       notifyDataSetChanged();
     }
 
     class viewHolderWeek extends RecyclerView.ViewHolder
@@ -70,7 +78,6 @@ public class recViewAdapter extends RecyclerView.Adapter<recViewAdapter.viewHold
         public viewHolderWeek(View inflate, Context context)
         {
             super(inflate);
-            Log.i(TAG, "viewHolderWeek");
             this.context = context;
             dayRecView = (RecyclerView) inflate.findViewById(R.id.recDayInWeek);
             dayLabel = (TextView) inflate.findViewById(R.id.dayDayInWeek);

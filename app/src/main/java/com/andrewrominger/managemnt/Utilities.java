@@ -70,6 +70,7 @@ public class Utilities
         values.put(sqlContract.FeedEntryTasks.COLUMN_YEAR, date.get(Calendar.YEAR));
         values.put(sqlContract.FeedEntryTasks.COLUMN_MINUTE, date.get(Calendar.MINUTE));
         values.put(sqlContract.FeedEntryTasks.COLUMN_HOUR, date.get(Calendar.HOUR));
+        values.put(sqlContract.FeedEntryTasks.COLUMN_ISCOMPLETE,0);
         try {
             Long newRowID = db.insert(sqlContract.FeedEntryTasks.TABLE_NAME, null, values);
         }catch (android.database.sqlite.SQLiteException e)
@@ -136,7 +137,8 @@ public class Utilities
                 sqlContract.FeedEntryTasks.COLUMN_URGANCY,
                 sqlContract.FeedEntryTasks.COLUMN_DAY,
                 sqlContract.FeedEntryTasks.COLUMN_MONTH,
-                sqlContract.FeedEntryTasks.COLUMN_YEAR
+                sqlContract.FeedEntryTasks.COLUMN_YEAR,
+                sqlContract.FeedEntryTasks.COLUMN_ISCOMPLETE
         };
         String sortOrder = sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS + " ASC";
         String selection = sqlContract.FeedEntryTasks.COLUMN_DAY + " = ? AND " + sqlContract.FeedEntryTasks.COLUMN_MONTH + " = ? AND "+ sqlContract.FeedEntryTasks.COLUMN_YEAR + " = ?";
@@ -215,9 +217,14 @@ public class Utilities
                 sqlContract.FeedEntryTasks.COLUMN_URGANCY,
                 sqlContract.FeedEntryTasks.COLUMN_DAY,
                 sqlContract.FeedEntryTasks.COLUMN_MONTH,
-                sqlContract.FeedEntryTasks.COLUMN_YEAR
+                sqlContract.FeedEntryTasks.COLUMN_YEAR,
+                sqlContract.FeedEntryTasks.COLUMN_ISCOMPLETE
         };
-        String sortOrder = sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS + " ASC LIMIT " + offset + "," + numtofetch;
+        String sortOrder = sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS + " ASC" ;
+        if(offset != -1)
+        {
+            sortOrder = sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS + " ASC LIMIT " + offset + "," + numtofetch;
+        }
         Cursor c = db.query(
                 sqlContract.FeedEntryTasks.TABLE_NAME,
                 projection,
@@ -230,7 +237,20 @@ public class Utilities
         c.moveToFirst();
         while (!c.isAfterLast())
         {
-            tasks.add(makeCal(c));
+            Calendar newCal = makeCal(c);
+            int q = tasks.size();
+            int isoff = 0;
+            for(int i = 0;i<q;i++)
+            {
+                if(tasks.get(i).get(Calendar.DAY_OF_YEAR)!= newCal.get(Calendar.DAY_OF_YEAR))
+                {
+                   isoff++;
+                }
+            }
+            if(isoff == tasks.size())
+            {
+                tasks.add(newCal);
+            }
             c.moveToNext();
         }
         return tasks;
@@ -239,6 +259,106 @@ public class Utilities
     public static Calendar makeCal(Cursor c)
     {
         return makeCal(c.getLong(c.getColumnIndexOrThrow(sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS)));
+    }
+
+    public static int getNumTasks(Context context, Calendar day)
+    {
+        ArrayList<Task> list = getDaysTasks(context,day);
+        int track = 0;
+        for (Task t:list)
+        {
+            if(!t.isCompleted())
+            {
+                track++;
+            }
+        }
+        return track;
+    }
+    public static int getNumTasksDone(Context context, Calendar day)
+    {
+        ArrayList<Task> list = getDaysTasks(context,day);
+        int track = 0;
+        for (Task t:list)
+        {
+            if(t.isCompleted())
+            {
+                track++;
+            }
+        }
+        return track;
+    }
+    public static int getNumTasksOver(Context context, Calendar day)
+    {
+        return getOverTasks(context,day).size();
+    }
+    public static ArrayList<Task> getOverTasks(Context context, Calendar day)
+    {
+        dbHelperS helper = new dbHelperS(context);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        ArrayList<Task> list = new ArrayList<>();
+        String[] projection = {
+                sqlContract.FeedEntryTasks._ID,
+                sqlContract.FeedEntryTasks.COLUMN_TASK_NAME,
+                sqlContract.FeedEntryTasks.COLUMN_TASK_DESCRIPTION,
+                sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS,
+                sqlContract.FeedEntryTasks.COLUMN_URGANCY,
+                sqlContract.FeedEntryTasks.COLUMN_DAY,
+                sqlContract.FeedEntryTasks.COLUMN_MONTH,
+                sqlContract.FeedEntryTasks.COLUMN_YEAR,
+                sqlContract.FeedEntryTasks.COLUMN_ISCOMPLETE
+        };
+        String sortOrder = sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS + " ASC";
+        String selection = sqlContract.FeedEntryTasks.COLUMN_DAY + " <= ? AND " + sqlContract.FeedEntryTasks.COLUMN_MONTH + " <= ? AND "+ sqlContract.FeedEntryTasks.COLUMN_YEAR + " <= ? AND " + sqlContract.FeedEntryTasks.COLUMN_HOUR + " <= ? AND " + sqlContract.FeedEntryTasks.COLUMN_MONTH + " < ?";
+        String[] selectionArgs = {String.valueOf(day.get(Calendar.DAY_OF_MONTH)), String.valueOf(day.get(Calendar.MONTH)), String.valueOf(day.get(Calendar.YEAR)), String.valueOf(day.get(Calendar.HOUR)), String.valueOf(day.get(Calendar.MINUTE))};
+
+        Cursor c = db.query(
+                sqlContract.FeedEntryTasks.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            list.add(new Task(c));
+            c.moveToNext();
+        }
+        db.close();
+        return list;
+    }
+    public static Cursor getTaskC(Context context)
+    {
+        dbHelperS helper = new dbHelperS(context);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        ArrayList<Task> list = new ArrayList<>();
+        String[] projection = {
+                sqlContract.FeedEntryTasks._ID,
+                sqlContract.FeedEntryTasks.COLUMN_TASK_NAME,
+                sqlContract.FeedEntryTasks.COLUMN_TASK_DESCRIPTION,
+                sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS,
+                sqlContract.FeedEntryTasks.COLUMN_URGANCY,
+                sqlContract.FeedEntryTasks.COLUMN_DAY,
+                sqlContract.FeedEntryTasks.COLUMN_MONTH,
+                sqlContract.FeedEntryTasks.COLUMN_YEAR,
+                sqlContract.FeedEntryTasks.COLUMN_ISCOMPLETE
+        };
+        String sortOrder = sqlContract.FeedEntryTasks.COLUMN_DUE_DATE_IN_MS + " ASC";
+
+        Cursor c = db.query(
+                sqlContract.FeedEntryTasks.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+        c.moveToFirst();
+        return c;
+
     }
 
 }

@@ -83,7 +83,6 @@ public class recViewAdapterDay extends RecyclerView.Adapter<recViewAdapterDay.vi
         {
             this.title.setText(t.getTitle());
             this.dueDate.setText(Utilities.justTime.format(t.getDueDate().getTime()));
-            Log.i(TAG, "Setting color w/ urgency " + t.getUrgency() + " to " + Utilities.getUrgColor(t.getUrgency(), itemView.getContext()));
             this.colorIndicator.setBackgroundColor(Utilities.getUrgColor(t.getUrgency(), itemView.getContext()));
             if(t.getDescription().contains("\n"))
             {

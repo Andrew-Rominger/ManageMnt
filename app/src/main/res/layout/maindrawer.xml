@@ -19,7 +19,7 @@
                 android:id="@+id/mainToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/colorPrimary"
                 android:elevation="4dp"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 android:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
@@ -40,37 +40,14 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:choiceMode="singleChoice"
+            android:background="@color/colorPrimary"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
             android:layout_marginRight="3dp"
-            android:background="@color/colorGreenExtra"
 
             />
 
     </android.support.v4.widget.DrawerLayout>
-    <RelativeLayout
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="end|bottom"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/roundededgesorange"
-        android:elevation="10dp"
-        android:id="@+id/addTaskTab">
-        <ImageView
-            android:layout_width="8dp"
-            android:layout_height="match_parent"
-            android:src="@color/colorAccent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/addtaskfab"
-            android:layout_gravity="end|bottom"
-            android:layout_centerInParent="true"
-            android:src="@drawable/plus"
-            android:elevation="0dp"/>
-    </RelativeLayout>
 
 </FrameLayout>

@@ -4,8 +4,82 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGreyDark"
     >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/overViewHolder"
+        android:paddingTop="4dp"
+        android:background="@android:color/white"
+        android:paddingBottom="4dp"
+        android:elevation="4dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/overViewBar">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/checkbox_marked"
+                    android:id="@+id/imgtodo" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/overViewNumTodo"
+                    android:textSize="20sp"
+                     />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/check"
+                    android:id="@+id/imgdone"
+                    android:layout_marginStart="27dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/overViewNumDone"
+                    android:textSize="20sp"
+                     />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/checkbox_marked"
+                    android:tint="@color/colorAccent"
+                    android:id="@+id/imgover"
+                    android:layout_marginStart="27dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/overViewNumOver"
+                    android:textSize="20sp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,13 +92,11 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/calenderView"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/roundededgeslightgrey"
-                    android:elevation="4dp"
                     >
                 </FrameLayout>
 
@@ -32,11 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/nextTaskView"
-                    android:layout_margin="8dp"
-                    android:layout_below="@id/calenderView"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/roundededgesblue"
-                    android:elevation="4dp">
+                    android:layout_below="@id/calenderView">
                 </FrameLayout>
 
                 <FrameLayout
