@@ -47,7 +47,7 @@ public class homeFragment extends Fragment
         Log.w(TAG, String.valueOf(Utilities.getDaysTasks(getActivity(), Calendar.getInstance()).size()));
         numTasks.setText(String.valueOf(Utilities.getNumTasks(getActivity(), Calendar.getInstance())));
         numDone.setText(String.valueOf(Utilities.getNumTasksDone(getActivity(), Calendar.getInstance())));
-        numOver.setText(String.valueOf(Utilities.getNumTasksOver(getActivity(),Calendar.getInstance())));
+        numOver.setText(String.valueOf(Utilities.getNumTasksOver(getActivity(), Calendar.getInstance())));
         super.onViewCreated(view, savedInstanceState);
     }
 
