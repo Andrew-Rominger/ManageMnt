@@ -1,13 +1,8 @@
 package com.andrewrominger.managemnt;
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -26,15 +21,14 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.andrewrominger.managemnt.CustomViews.SlidingFrameLayout;
 import com.andrewrominger.managemnt.Fragments.addTaskFragment;
 import com.andrewrominger.managemnt.Fragments.calendarFragment;
 import com.andrewrominger.managemnt.Fragments.homeFragment;
+import com.andrewrominger.managemnt.Fragments.studyBudyFragment;
 import com.andrewrominger.managemnt.Fragments.taskFragment;
 
 
@@ -182,6 +176,10 @@ public class MainActivity extends AppCompatActivity
                 case 2:
                     getSupportActionBar().setElevation(4 * getResources().getDisplayMetrics().density);
                     moveToCalendar();
+                    break;
+                case 3:
+                    getSupportActionBar().setElevation(4 * getResources().getDisplayMetrics().density);
+                    moveToStudyBudy();
             }
         }
         private void moveToTasks()
@@ -207,6 +205,13 @@ public class MainActivity extends AppCompatActivity
             transaction = fm.beginTransaction();
             transaction.replace(R.id.mainFragmentHolder,new calendarFragment());
             //transaction.addToBackStack(null);
+            transaction.commit();
+        }
+        private void moveToStudyBudy()
+        {
+            transaction = fm.beginTransaction();
+            studyBudyFragment sbf = new studyBudyFragment();
+            transaction.replace(R.id.mainFragmentHolder, sbf);
             transaction.commit();
         }
     }

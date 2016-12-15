@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sBTaskScr"
+        android:paddingBottom="4dp"
+        >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sBTaskListRecycler"
+                    android:elevation="4dp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+    <com.andrewrominger.managemnt.CustomViews.SlidingRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ctfStudyBudi">
+        <com.andrewrominger.managemnt.CustomViews.SlidingFrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addStudyBudiFrame"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="55dp">
+        </com.andrewrominger.managemnt.CustomViews.SlidingFrameLayout>
+
+        <com.andrewrominger.managemnt.CustomViews.SlidingFrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/addStudyBudiTab">
+            <com.andrewrominger.managemnt.CustomViews.SlidingRelativeLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/roundededgesorange"
+                >
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent"
+                    android:src="@color/colorAccent"
+                    android:id="@+id/rect"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addSBtaskfab"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/plus" />
+            </com.andrewrominger.managemnt.CustomViews.SlidingRelativeLayout>
+        </com.andrewrominger.managemnt.CustomViews.SlidingFrameLayout>
+    </com.andrewrominger.managemnt.CustomViews.SlidingRelativeLayout>
+
+</RelativeLayout>
