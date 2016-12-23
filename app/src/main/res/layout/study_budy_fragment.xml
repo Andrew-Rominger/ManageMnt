@@ -32,7 +32,9 @@
     <com.andrewrominger.managemnt.CustomViews.SlidingRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/ctfStudyBudi">
+        android:id="@+id/ctfStudyBudi"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
         <com.andrewrominger.managemnt.CustomViews.SlidingFrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

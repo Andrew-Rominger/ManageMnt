@@ -16,9 +16,8 @@
         android:src="@drawable/calendar_plus"
         android:id="@+id/taskAddDueDateButton"
         android:tint="@android:color/black"
-        android:layout_alignTop="@+id/taskDueDate"
-        android:layout_alignEnd="@+id/taskAddDescription"
-        android:layout_above="@+id/taskAddButton" />
+        android:layout_below="@+id/taskAddDescription"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
