@@ -21,5 +21,75 @@
         android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"/>
 
+    <TextView
+        android:text="Study Length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/studyLengthTextView"
+        android:layout_below="@+id/cycleImageButton"
+        android:layout_alignParentStart="true"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/studyLengthProgressBar"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:layout_alignBottom="@+id/studyLengthTextView"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/studyLengthTextView"
+        android:layout_alignTop="@+id/studyLengthTextView" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/sorry"
+        android:id="@+id/cycleImageButton"
+        android:layout_below="@+id/cyclesTextView"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Cycles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cyclesTextView"
+        android:layout_below="@+id/SBTaskAddTitle"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/sandclock"
+        android:id="@+id/studyBreakLengthImageButtno"
+        android:layout_above="@+id/studyLengthProgressBar"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Study Break Length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/breakLengthTextView"
+        android:layout_below="@+id/SBTaskAddTitle"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/stopwatch"
+        android:id="@+id/studyLengthImageButton"
+        android:layout_above="@+id/studyLengthProgressBar"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Study Length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/studyLengthTextViewTop"
+        android:layout_below="@+id/SBTaskAddTitle"
+        android:layout_alignParentEnd="true" />
+
 
 </RelativeLayout>

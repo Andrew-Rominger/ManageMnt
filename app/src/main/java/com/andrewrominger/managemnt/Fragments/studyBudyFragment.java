@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnticipateInterpolator;
+import android.widget.Button;
 
 import com.andrewrominger.managemnt.CustomViews.SlidingFrameLayout;
 import com.andrewrominger.managemnt.R;
@@ -22,6 +23,8 @@ import com.andrewrominger.managemnt.studyBudyTask;
 public class studyBudyFragment extends Fragment {
     String TAG = studyBudyFragment.class.getSimpleName();
     SlidingFrameLayout studyBudyTag;
+    Button button;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         return inflater.inflate(R.layout.study_budy_fragment, container, false);
@@ -29,6 +32,7 @@ public class studyBudyFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         Log.i(TAG, "onVeiwC");
+
         studyBudyTag = (SlidingFrameLayout) view.findViewById(R.id.addStudyBudiTab);
         studyBudyTag.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +49,9 @@ public class studyBudyFragment extends Fragment {
 
             }
         });
+
+
+
         super.onViewCreated(view, savedInstanceState);
     }
 
